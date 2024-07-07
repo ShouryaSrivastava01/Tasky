@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Authentication</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="authType">
+    <ion-segment-button value="login">
+      Login
+    </ion-segment-button>
+    <ion-segment-button value="signup">
+      Signup
+    </ion-segment-button>
+  </ion-segment>
+
+  <div>  
+  <div class="image-container ion-padding">
+    <ion-img src="assets/auth.svg"></ion-img>
+  </div>
+  <div [ngSwitch]="authType" class="ion-padding ion-text-center">
+    <form *ngSwitchCase="'login'" [formGroup]="userForm" class="ion-padding ion-text-center" (ngSubmit)="onLogin()" >
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email" required></ion-input>
+      <div *ngIf="userForm.get('email')?.invalid && userSignUpForm.get('email')?.touched">
+        <ion-text color="danger" *ngIf="userForm.get('email')?.errors?.['email']"><sub>Enter a valid email.</sub></ion-text>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password" required></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit" [disabled]="userForm.invalid">Login</ion-button>
+  </form>
+    <form *ngSwitchCase="'signup'" [formGroup]="userSignUpForm" (ngSubmit)="onSignup()">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email" required></ion-input>
+        <div *ngIf="userSignUpForm.get('email')?.invalid && userSignUpForm.get('email')?.touched">
+          <ion-text color="danger" *ngIf="userSignUpForm.get('email')?.errors?.['required']"><sub>Email is required.</sub></ion-text>
+          <ion-text color="danger" *ngIf="userSignUpForm.get('email')?.errors?.['email']"><sub>Enter a valid email.</sub></ion-text>
+        </div>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password" required></ion-input>
+        <div *ngIf="userSignUpForm.get('password')?.invalid && userSignUpForm.get('password')?.touched">
+          <ion-text color="danger" *ngIf="userSignUpForm.get('password')?.errors?.['required']"><sub>Password is required.</sub></ion-text>
+          <ion-text color="danger" *ngIf="userSignUpForm.get('password')?.errors?.['minlength']">
+            <sub>Password must be at least 6 characters long.</sub>
+          </ion-text>
+        </div>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input type="password" formControlName="confirmPassword" required></ion-input>
+        <ion-text color="danger" *ngIf="userSignUpForm.get('confirmPassword')?.touched && matchPassword()">
+         <sub>Passwords must match.</sub> 
+        </ion-text>
+      </ion-item>
+    
+      <ion-button expand="full" type="submit" [disabled]="userSignUpForm.invalid">Submit</ion-button>
+    </form>
+  </div>
+</div>
+</ion-content>

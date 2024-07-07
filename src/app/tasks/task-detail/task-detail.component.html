@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button defaultHref="/" slot="start"></ion-back-button>
+    <ion-title size="medium"> Task Detail </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="ion-margin">
+    <form [formGroup]="taskForm" (ngSubmit)="submit()" class="ion-form">
+      <ion-input
+        fill="outline"
+        label="Title"
+        label-placement="stacked"
+        placeholder="Title"
+        formControlName="title"
+        type="text"
+      >
+      </ion-input>
+      <ion-textarea 
+      fill="outline"
+      label="Description"
+      label-placement="stacked"
+      placeholder="Description"
+      formControlName="description"
+      type="text"></ion-textarea>
+      <ion-datetime 
+      class="date-time-picker"
+      formControlName="dueDate"
+      presentation="date" 
+      displayFormat="MM/DD/YYYY">
+      <span slot="title">Select a Due Date</span>
+    </ion-datetime>
+
+      <ion-select formControlName="priority"  fill="outline"
+      label="Priority"
+      label-placement="stacked"
+      placeholder="Priority"
+      interface="action-sheet"
+      >
+        <ion-select-option value="Low">Low</ion-select-option>
+        <ion-select-option value="Medium">Medium</ion-select-option>
+        <ion-select-option value="High">High</ion-select-option>
+      </ion-select>
+  <ion-button *ngIf="!id" expand="full" type="submit" [disabled]="!taskForm.valid">Submit</ion-button> 
+  <ion-button *ngIf="id" expand="full" type="submit" [disabled]="!taskForm.dirty || !taskForm.valid">Update</ion-button> 
+
+</form>
+  </div>
+  
+</ion-content>

@@ -1,0 +1,37 @@
+<div class="ion-page" id="tasks-list">
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>tasks</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button size="large" routerLink="/add">
+        <ion-icon class="icon-color" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="tasks && tasks.length > 0; else noTaskTemplate">
+  <ion-list>
+    <ion-item *ngFor="let task of tasks">
+      <ion-label routerLink="task/{{task.id}}">
+        <h2>{{ task.title }}</h2>
+        <p>Due Date: {{ task.dueDate | date: 'mediumDate' }}</p>
+        <p>Priority: {{ task.priority }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click) = "presentAlert(task.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ng-container>
+<ng-template #noTaskTemplate>
+  <ion-note class="no-task">To task available</ion-note>
+</ng-template>
+</ion-content>
+</div>

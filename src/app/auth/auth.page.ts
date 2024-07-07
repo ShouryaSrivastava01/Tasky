@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LocalNotifications, ScheduleOptions } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-auth',
@@ -42,5 +43,24 @@ export class AuthPage implements OnInit {
   }
   matchPassword() {
     return this.userSignUpForm.value.password !== this.userSignUpForm.value.confirmPassword
+  }
+
+  async notify() {
+    let options: ScheduleOptions = {
+      notifications: [
+        {
+          id: 111,
+          title: "Reminder",
+          body: "Explore notifications",
+        }
+      ]
+
+    }
+
+    try {
+      await LocalNotifications.schedule(options);
+    } catch(ex) {
+      alert(JSON.stringify(ex));
+    }
   }
 }

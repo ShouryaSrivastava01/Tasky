@@ -43,6 +43,7 @@ export class AuthService {
       if(user.password === password) {
         this.authenticate = true;
         localStorage.setItem('auth', JSON.stringify(email));
+        this.taskService.overDueTask();
         this.router.navigate(['']);
         this.toaster.presentToastForSuccess('Logged in successfully.');
       }

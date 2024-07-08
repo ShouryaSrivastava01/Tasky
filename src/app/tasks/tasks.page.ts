@@ -16,7 +16,6 @@ export class TasksPage implements OnInit {
     const tasks = localStorage.getItem('tasks');
     if(tasks) {
       this.taskService.tasks = JSON.parse(tasks);
-      this.notify();
     }
     this.tasks = this.taskService.tasks
   }

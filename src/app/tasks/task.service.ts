@@ -2,6 +2,7 @@ import { Injectable} from '@angular/core';
 import { Task } from './task.model';
 import {ScheduleOptions, LocalNotifications } from '@capacitor/local-notifications';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -81,6 +82,7 @@ export class TaskService {
               id: Math.random()*100,
               title: "Task Overdue",
               body: `You've ${task.length} overdue.`,
+              smallIcon: '../../assets/icon/clock.svg',
             }
           ]
           

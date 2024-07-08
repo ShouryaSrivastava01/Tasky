@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { ToasterService } from './toaster.service';
+import { TaskService } from './tasks/task.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,17 +23,20 @@ export class AuthService {
   
 
   constructor(private router: Router,
-    private toaster: ToasterService
+    private toaster: ToasterService,
+    private taskService: TaskService
   ) { }
 
   isLoggedIn() {
     const auth = localStorage.getItem('auth');
-    if(auth) return true;
+    if(auth) {
+      this.taskService.overDueTask();
+      return true;
+    }
     else return this.authenticate;
   }
 
   login(email:string, password: string) {
-    console.log(email, password)
     const user = this.users.find(user => user.email === email);
     console.log(user)
     if(user) {

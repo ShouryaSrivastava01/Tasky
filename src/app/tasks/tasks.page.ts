@@ -16,10 +16,11 @@ export class TasksPage implements OnInit {
     const tasks = localStorage.getItem('tasks');
     if(tasks) {
       this.taskService.tasks = JSON.parse(tasks);
+      this.notify();
     }
     this.tasks = this.taskService.tasks
   }
-
+  
   deleteTask(id:number) {
     const tasks = this.tasks.filter(task => task.id !== id);
     this.tasks = tasks;
@@ -47,5 +48,9 @@ export class TasksPage implements OnInit {
     });
   
     await alert.present();
+  }
+
+  notify(){
+    this.taskService.overDueTask();
   }
   }

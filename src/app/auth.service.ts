@@ -26,7 +26,9 @@ export class AuthService {
   ) { }
 
   isLoggedIn() {
-    return this.authenticate;
+    const auth = localStorage.getItem('auth');
+    if(auth) return true;
+    else return this.authenticate;
   }
 
   login(email:string, password: string) {
@@ -36,6 +38,7 @@ export class AuthService {
     if(user) {
       if(user.password === password) {
         this.authenticate = true;
+        localStorage.setItem('auth', JSON.stringify(email));
         this.router.navigate(['']);
         this.toaster.presentToastForSuccess('Logged in successfully.');
       }
@@ -47,6 +50,7 @@ export class AuthService {
   logout() {
     this.authenticate = false;
     this.toaster.presentToastForSuccess('Logged out.')
+    localStorage.removeItem('auth');
     this.router.navigate(['auth'])
   }
 

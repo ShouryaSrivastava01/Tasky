@@ -1,5 +1,6 @@
 import { Injectable} from '@angular/core';
 import { Task } from './task.model';
+import {ScheduleOptions, LocalNotifications } from '@capacitor/local-notifications';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class TaskService {
       id: 1,
       title: 'Task 1',
       description: 'Description for task 1',
-      dueDate: new Date('2024-07-10'),
+      dueDate: new Date('2024-05-10'),
       priority: 'High'
     },
     {
@@ -36,7 +37,7 @@ export class TaskService {
       id: 4,
       title: 'Task 4',
       description: 'Description for task 4',
-      dueDate: new Date('2024-07-25'),
+      dueDate: new Date('2024-06-25'),
       priority: 'High'
 
     },
@@ -67,6 +68,29 @@ export class TaskService {
         task.dueDate = update.dueDate
         task.priority = update.priority
         localStorage.setItem('tasks', JSON.stringify(this.tasks));
+      }
+    }
+
+   async overDueTask() {
+      const task = this.tasks.filter(task => new Date(task.dueDate) < new Date());
+      if(task) {
+        console.log(`You've ${task.length} overdue.`)
+        let options: ScheduleOptions = {
+          notifications: [
+            {
+              id: Math.random()*100,
+              title: "Task Overdue",
+              body: `You've ${task.length} overdue.`,
+            }
+          ]
+          
+        }
+        
+        try {
+          await LocalNotifications.schedule(options);
+        } catch(ex) {
+          console.log('error');
+        }
       }
     }
 }

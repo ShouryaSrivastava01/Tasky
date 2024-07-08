@@ -1,5 +1,5 @@
 {
-  "name": "First app",
+  "name": "Tasky",
   "integrations": {
     "capacitor": {}
   },
